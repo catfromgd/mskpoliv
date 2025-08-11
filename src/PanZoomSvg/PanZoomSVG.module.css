@@ -1,0 +1,56 @@
+:root {
+  --bg: #0f172a33; /* subtle background */
+  --hint-bg: #111827dd;
+  --hint-color: #e5e7eb;
+}
+
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  touch-action: none; /* disables browser gestures so our handlers work */
+  background: var(--bg);
+}
+
+.content {
+  /* transform is applied from JS */
+  transform-origin: 0 0; /* important: we calculate transforms relative to top-left */
+  will-change: transform;
+  display: inline-block; /* avoid 100% width stretching when using inline SVG */
+  cursor: grab;
+}
+
+.grabbing {
+  cursor: grabbing !important;
+}
+
+.hint {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--hint-bg);
+  color: var(--hint-color);
+  font-size: 12px;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* Make SVG inside content scale nicely and not be selectable */
+.content svg {
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Optional: if user uses an <img src="...svg"> inside, make it not exceed natural size */
+.content img {
+  display: block;
+  max-width: none;
+  max-height: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}

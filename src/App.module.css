@@ -1,0 +1,119 @@
+* {
+  font-family: "Nata sans";
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+body {
+  background-color: #0e0e0e;
+}
+
+.app {
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 7vh;
+  width: 100%;
+  margin: 0 10px 10px 0;
+  position: absolute;
+  backdrop-filter: blur(2px); /* Размытие фона */
+}
+
+.logoDiv {
+  height: 7vh;
+  display: flex;
+}
+
+.logoImg {
+  height: 7vh;
+}
+
+.logo {
+  margin-right: 5vw;
+  font-size: 50px;
+}
+
+.headerButton {
+  transition: background-color 0.2s ease-in-out;
+  outline: none;
+  border: 0;
+  border-radius: 0;
+  background-color: #0e0e0e;
+  font-size: x-large;
+  padding: 10px 20px;
+  height: 100%;
+}
+
+.headerButton:hover {
+  background-color: #2c2c2c;
+}
+
+.container{
+  margin-left: 30px;
+}
+
+.fakeHeader{
+  height: 7vh;
+}
+
+.servicesTitle{
+  font-size: 40px;
+  margin: 30px 20px;
+}
+
+.service {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  justify-content: space-between;
+  background: 
+    linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.7) 90%),
+    url("assets/photo1.jpg") center/cover;
+  width: 400px;
+  background-size: cover; /* Растягивает изображение, сохраняя пропорции */
+  background-position: center; /* Центрирует изображение */
+  background-repeat: no-repeat; /* Запрещает повторение */
+  border-radius: 20px;
+}
+
+.priceAndButton {
+  display: flex;
+  align-items: center;
+}
+
+.serviceButton{
+  width: 200px;
+  height: 50px;
+  font-size: xx-large;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background-color: #06d162;
+  backdrop-filter: blur(2px);
+  border-radius: 20px;
+  margin: 20px;
+}
+
+.servicePrice{
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 18px;
+}
+
+.objects{
+  width: 40vw;
+}
+
+.objectsList{
+  overflow: hidden;
+}
+
+.objectsSchemeContainer{
+  max-height: 700px;
+}
