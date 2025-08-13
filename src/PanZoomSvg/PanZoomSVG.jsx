@@ -216,7 +216,7 @@ export default function PanZoomSVG({
       <div ref={contentRef} className={styles.content}>
         {children}
       </div>
-      <div className={styles.hint}>Drag to pan · Wheel to zoom · Double-click to zoom · Tab then use arrows</div>
+      <div className={styles.hint}>Используйте мышь для масштабирования схемы</div>
     </div>
   )
 }

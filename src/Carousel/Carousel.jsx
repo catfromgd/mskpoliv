@@ -1,39 +1,107 @@
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useState, useRef, useEffect } from "react";
+import styles from "./Carousel.module.css";
 
-export default function Carousel({ slides, autoplaySpeed = 3000 }) {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed,
-    pauseOnHover: true,
-    arrows: true,
+const slidesData = [
+  { id: 1, bgClass: styles.placeholder1, alt: "Слайд 1" },
+  { id: 2, bgClass: styles.placeholder2, alt: "Слайд 2" },
+  { id: 3, bgClass: styles.placeholder3, alt: "Слайд 3" },
+];
+
+const Carousel = () => {
+  const [index, setIndex] = useState(0);
+  const trackRef = useRef(null);
+  const startXRef = useRef(0);
+  const deltaXRef = useRef(0);
+  const isDraggingRef = useRef(false);
+
+  const goTo = (i) => {
+    const newIndex = (i + slidesData.length) % slidesData.length;
+    setIndex(newIndex);
   };
 
+  const next = () => goTo(index + 1);
+  const prev = () => goTo(index - 1);
+
+  // Свайп
+  const handlePointerDown = (e) => {
+    isDraggingRef.current = true;
+    startXRef.current = e.clientX || e.touches[0].clientX;
+  };
+
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current) return;
+    const currentX = e.clientX || e.touches[0].clientX;
+    deltaXRef.current = currentX - startXRef.current;
+    trackRef.current.style.transition = "0ms";
+    trackRef.current.style.transform = `translateX(${
+      -index * 100 + (deltaXRef.current / trackRef.current.clientWidth) * 100
+    }%)`;
+  };
+
+  const handlePointerUp = () => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    const threshold = trackRef.current.clientWidth * 0.12;
+    if (Math.abs(deltaXRef.current) > threshold) {
+      deltaXRef.current < 0 ? next() : prev();
+    } else {
+      trackRef.current.style.transition = "480ms ease";
+      trackRef.current.style.transform = `translateX(${-index * 100}%)`;
+    }
+    deltaXRef.current = 0;
+  };
+
+  useEffect(() => {
+    trackRef.current.style.transition = "480ms ease";
+    trackRef.current.style.transform = `translateX(${-index * 100}%)`;
+  }, [index]);
+
   return (
-    <div style={{ maxWidth: 600, margin: "0 auto" }}>
-      <Slider {...settings}>
-        {slides.map((slide, idx) => (
-          <div key={idx}>
-            {/* Можно принимать как картинки, так и любой JSX */}
-            {typeof slide === "string" ? (
-              <img
-                src={slide}
-                alt={`slide-${idx}`}
-                style={{ width: "100%", borderRadius: 8 }}
-              />
-            ) : (
-              slide
-            )}
-          </div>
+    <section className={styles.carousel}>
+      {/* Фиксированный текст */}
+      <div className={styles.overlay}>
+        <h1 className={styles.title}>Автополив</h1>
+        <p className={styles.subtitle}>под ключ</p>
+      </div>
+
+      {/* Кнопки */}
+      <button className={styles.btn + " " + styles.prev} onClick={prev} aria-label="Предыдущий слайд">
+        &#10094;
+      </button>
+      <button className={styles.btn + " " + styles.next} onClick={next} aria-label="Следующий слайд">
+        &#10095;
+      </button>
+
+      {/* Лента слайдов */}
+      <div
+        className={styles.track}
+        ref={trackRef}
+        onMouseDown={handlePointerDown}
+        onMouseMove={handlePointerMove}
+        onMouseUp={handlePointerUp}
+        onMouseLeave={handlePointerUp}
+        onTouchStart={handlePointerDown}
+        onTouchMove={handlePointerMove}
+        onTouchEnd={handlePointerUp}
+      >
+        {slidesData.map((slide) => (
+          <div key={slide.id} className={`${styles.slide} ${slide.bgClass}`} role="group" aria-label={`${slide.id} из ${slidesData.length}`} />
         ))}
-      </Slider>
-    </div>
+      </div>
+
+      {/* Индикаторы */}
+      <div className={styles.indicators}>
+        {slidesData.map((_, i) => (
+          <button
+            key={i}
+            className={styles.dot}
+            aria-current={index === i ? "true" : "false"}
+            onClick={() => goTo(i)}
+          />
+        ))}
+      </div>
+    </section>
   );
-}
+};
+
+export default Carousel;
