@@ -21,13 +21,12 @@ export default function App() {
     contactsRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-
   return (
     <div className={styles.app}>
       <header className={styles.header}>
         <div className={styles.logoDiv}>
           <img
-            src="src/assets/logo-mskpoliv.png"
+            src="./assets/logo-mskpoliv.png"
             alt="no logo"
             className={styles.logoImg}
           />
